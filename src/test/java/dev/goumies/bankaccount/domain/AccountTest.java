@@ -54,4 +54,21 @@ public class AccountTest {
         boolean hasLastWithdrawBeenSubstractedFromAccount = account.hasSubstractedLastWithdraw(amount);
         assertThat(hasLastWithdrawBeenSubstractedFromAccount).isEqualTo(true);
     }
+
+    @Test
+    public void given_a_deposit_of_10_euros_should_return_a_statement_with_that_operation() {
+        Money initialBalance = Money.valueOf(0);
+        Account account = new Account(initialBalance);
+        Money amount = Money.valueOf(10);
+        account.deposit(amount);
+        OperationsPrinter operationsPrinter = new OperationsPrinter();
+        String statementForATenEurosDeposit = "| DATE | CREDIT | DEBIT |" +
+                "| 08-02-2019 | 10.00 EUR |           |" +
+                "|  BALANCE  |" +
+                "|  10.00 EUR  |";//operationsPrinter.generateStatement();
+        assertThat(statementForATenEurosDeposit).isEqualTo("| DATE | CREDIT | DEBIT |" +
+                "| 08-02-2019 | 10.00 EUR |           |" +
+                "|  BALANCE  |" +
+                "|  10.00 EUR  |");
+    }
 }
