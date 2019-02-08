@@ -1,25 +1,17 @@
 package dev.goumies.bankaccount.domain;
 
-public class Account {
+class Account {
     private Money previousBalance;
     private Money newBalance;
     private Money lastDeposit;
 
-    public Account(Money initialBalance) {
+    Account(Money initialBalance) {
         this.previousBalance = initialBalance;
         this.newBalance = Money.valueOf(0);
         this.lastDeposit = Money.valueOf(0);
     }
 
-    public Money getBalance() {
-        return newBalance;
-    }
-
-    public Money getPreviousBalance() {
-        return previousBalance;
-    }
-
-    public void deposit(Money amount) throws IllegalArgumentException {
+    void deposit(Money amount) throws IllegalArgumentException {
         if (amount.isGreaterThan(Money.valueOf(0))) {
             saveLastDeposit(amount);
             newBalance = this.previousBalance.plus(amount);
@@ -30,7 +22,18 @@ public class Account {
         lastDeposit = amount;
     }
 
-    public boolean hasAddedLastDeposit(Money amount) {
+    boolean hasAddedLastDeposit(Money amount) {
         return newBalance.minus(previousBalance).equals(amount);
+    }
+
+    void withdraw(Money amount) {
+        if (newBalance.isGreaterThan(amount)) {
+            saveLastDeposit(amount);
+            newBalance = this.previousBalance.minus(amount);
+        }
+    }
+
+    public boolean hasSubstractedLastWithdraw(Money amount) {
+        return newBalance.plus(amount).equals(previousBalance);
     }
 }

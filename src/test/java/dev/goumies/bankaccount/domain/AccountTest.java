@@ -34,4 +34,24 @@ public class AccountTest {
         boolean hasLastDepositbeenAddedToAccount = account.hasAddedLastDeposit(amount);
         assertThat(hasLastDepositbeenAddedToAccount).isEqualTo(true);
     }
+
+    @Test
+    public void given_a_withdrawal_of_10_euros_with_an_inferior_balance_should_return_false() {
+        Money initialBalance = Money.valueOf(1);
+        Account account = new Account(initialBalance);
+        Money amount = Money.valueOf(10);
+        account.withdraw(amount);
+        boolean hasLastWithdrawBeenSubstractedFromAccount = account.hasSubstractedLastWithdraw(amount);
+        assertThat(hasLastWithdrawBeenSubstractedFromAccount).isEqualTo(false);
+    }
+
+    @Test
+    public void given_a_withdrawal_of_10_euros_with_enough_balance_should_return_true() {
+        Money initialBalance = Money.valueOf(10);
+        Account account = new Account(initialBalance);
+        Money amount = Money.valueOf(10);
+        account.withdraw(amount);
+        boolean hasLastWithdrawBeenSubstractedFromAccount = account.hasSubstractedLastWithdraw(amount);
+        assertThat(hasLastWithdrawBeenSubstractedFromAccount).isEqualTo(true);
+    }
 }
