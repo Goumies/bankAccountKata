@@ -61,7 +61,7 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(10);
         account.deposit(amount);
-        OperationsPrinter operationsPrinter = new OperationsPrinter();
+        OperationsPrinter operationsPrinter = new OperationsPrinter(account);
         String statementForATenEurosDeposit = "| DATE | CREDIT | DEBIT |" +
                 "| 08-02-2019 | 10.00 EUR |           |" +
                 "|  BALANCE  |" +

@@ -1,12 +1,17 @@
 package dev.goumies.bankaccount.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Account {
     private Money previousBalance;
     private Money newBalance;
     private Money lastDeposit;
+    private List<BankingOperation> operations;
 
     Account(Money initialBalance) {
         this.previousBalance = initialBalance;
+        this.operations = new ArrayList<>();
         this.newBalance = Money.valueOf(0);
         this.lastDeposit = Money.valueOf(0);
     }
@@ -33,7 +38,11 @@ class Account {
         }
     }
 
-    public boolean hasSubstractedLastWithdraw(Money amount) {
+    boolean hasSubstractedLastWithdraw(Money amount) {
         return newBalance.plus(amount).equals(previousBalance);
+    }
+
+    List<BankingOperation> getOperations() {
+        return operations;
     }
 }

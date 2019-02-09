@@ -40,10 +40,7 @@ class Money {
         return Objects.hash(value);
     }
 
-    @Override
-    public String toString() {
-        return "Money{" +
-                "value=" + value +
-                '}';
+    public int getValue() {
+        return value;
     }
 }
