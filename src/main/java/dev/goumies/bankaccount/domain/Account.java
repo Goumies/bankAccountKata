@@ -40,9 +40,13 @@ class Account {
 
     void withdraw(Money amount) {
         if (newBalance.isGreaterThan(amount)) {
-            operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).build());
+            addWithdrawalToOperations(amount);
             newBalance = this.previousBalance.minus(amount);
         }
+    }
+
+    private void addWithdrawalToOperations(Money amount) {
+        operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).build());
     }
 
     boolean hasSubtractedLastWithdraw(Money amount) {
@@ -55,5 +59,9 @@ class Account {
             return operations.get(indexOfLastOperation);
         }
         return anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(0)).build();
+    }
+
+    Operations getAllOperations() {
+        return operations.getAll();
     }
 }

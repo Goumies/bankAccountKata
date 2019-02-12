@@ -24,29 +24,8 @@ class BankingOperation {
         return amount;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BankingOperation that = (BankingOperation) o;
-        return Objects.equals(date, that.date) &&
-                Objects.equals(amount, that.amount);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, amount);
-    }
-
-    @Override
-    public String toString() {
-        return "BankingOperation{" +
-                "date=" + date +
-                ", amount=" + amount +
-                '}';
-    }
-
     static final class Builder {
+
         private LocalDate date;
         private Money amount;
 
@@ -63,7 +42,21 @@ class BankingOperation {
         BankingOperation build() {
             return new BankingOperation(date, amount);
         }
+
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankingOperation that = (BankingOperation) o;
+        return Objects.equals(date, that.date) &&
+                Objects.equals(amount, that.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, amount);
+    }
 }
