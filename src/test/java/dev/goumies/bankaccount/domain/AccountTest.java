@@ -75,7 +75,7 @@ public class AccountTest {
     }
 
     @Test
-    public void given_multiple_banking_operations_should_all_operations_to_the_list_of_operations_of_the_account() {
+    public void given_multiple_banking_operations_should_add_all_operations_to_the_list_of_operations_of_the_account() {
         Account account = new Account(Money.valueOf(10));
         Money aWithdrawalOf10Euros = Money.valueOf(10);
         Money aDepositOf100Euros = Money.valueOf(100);
@@ -85,5 +85,21 @@ public class AccountTest {
         BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).build();
         Operations operations = new Operations(aWithdrawalOperationWith10Euros, aDepositOperationWith100Euros);
         assertThat(account.getAllOperations()).isEqualTo(operations);
+    }
+
+    @Test
+    public void given_multiple_banking_operations_should_withdrawals_with_negative_values() {
+        Account account = new Account(Money.valueOf(10));
+        Money aWithdrawalOf10Euros = Money.valueOf(10);
+        Money aDepositOf100Euros = Money.valueOf(100);
+        Money aWithdrawalOf20Euros = Money.valueOf(20);
+        account.withdraw(aWithdrawalOf10Euros);
+        account.deposit(aDepositOf100Euros);
+        account.withdraw(aWithdrawalOf20Euros);
+        BankingOperation aWithdrawalOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).withType(Type.WITHDRAWAL).build();
+        BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).withType(Type.DEPOSIT).build();
+        BankingOperation aWithdrawalOperationWith20Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf20Euros).withType(Type.WITHDRAWAL).build();
+        Operations withdrawals = new Operations(aWithdrawalOperationWith10Euros, aWithdrawalOperationWith20Euros);
+        assertThat(account.getAllWithdrawals()).isEqualTo(withdrawals);
     }
 }

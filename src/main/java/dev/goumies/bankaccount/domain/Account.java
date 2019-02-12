@@ -35,7 +35,7 @@ class Account {
     }
 
     private void addDepositToOperations(Money amount) {
-        operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).build());
+        operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).withType(Type.DEPOSIT).build());
     }
 
     void withdraw(Money amount) {
@@ -46,7 +46,7 @@ class Account {
     }
 
     private void addWithdrawalToOperations(Money amount) {
-        operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).build());
+        operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).withType(Type.WITHDRAWAL).build());
     }
 
     boolean hasSubtractedLastWithdraw(Money amount) {
@@ -63,5 +63,9 @@ class Account {
 
     Operations getAllOperations() {
         return operations.getAll();
+    }
+
+    Operations getAllWithdrawals() {
+        return operations.getWithdrawals();
     }
 }

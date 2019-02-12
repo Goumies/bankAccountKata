@@ -6,10 +6,16 @@ import java.util.Objects;
 class BankingOperation {
     private final LocalDate date;
     private Money amount;
+    private Type type;
 
     private BankingOperation(LocalDate date, Money amount) {
+        this(date, amount, Type.NONE);
+    }
+
+    private BankingOperation(LocalDate date, Money amount, Type type) {
         this.date = date;
         this.amount = amount;
+        this.type = type;
     }
 
     static Builder anOperation() {
@@ -24,10 +30,20 @@ class BankingOperation {
         return amount;
     }
 
+
+    private Type getType() {
+        return type;
+    }
+
+    boolean isAWithdrawal() {
+        return type.equals(Type.WITHDRAWAL);
+    }
+
     static final class Builder {
 
         private LocalDate date;
         private Money amount;
+        private Type type;
 
         Builder withADate(LocalDate date) {
             this.date = date;
@@ -39,12 +55,15 @@ class BankingOperation {
             return this;
         }
 
-        BankingOperation build() {
-            return new BankingOperation(date, amount);
+        Builder withType(Type type) {
+            this.type = type;
+            return this;
         }
 
+        BankingOperation build() {
+            return new BankingOperation(date, amount, type);
+        }
     }
-
 
     @Override
     public boolean equals(Object o) {

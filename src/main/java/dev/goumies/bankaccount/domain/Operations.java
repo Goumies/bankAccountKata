@@ -32,6 +32,16 @@ class Operations {
         return bankingOperations.size();
     }
 
+    Operations getAll() {
+        return this;
+    }
+
+    Operations getWithdrawals() {
+        return new Operations(bankingOperations.stream()
+                .filter(BankingOperation::isAWithdrawal)
+                .collect(Collectors.toList()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,7 +55,10 @@ class Operations {
         return Objects.hash(bankingOperations);
     }
 
-    Operations getAll() {
-        return this;
+    @Override
+    public String toString() {
+        return "Operations{" +
+                "bankingOperations=" + bankingOperations +
+                '}';
     }
 }
