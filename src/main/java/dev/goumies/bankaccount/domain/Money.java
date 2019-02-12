@@ -15,6 +15,10 @@ class Money {
         return new Money(value);
     }
 
+    int getValue() {
+        return value;
+    }
+
     Money plus(Money amount) {
         return Money.valueOf(value + amount.value);
     }
@@ -23,7 +27,7 @@ class Money {
         return Money.valueOf(value - amount.value);
     }
 
-    public boolean isGreaterThan(Money amount) {
+    boolean isGreaterThan(Money amount) {
         return value > amount.value;
     }
 
@@ -32,15 +36,12 @@ class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        return value == money.value;
+        return value == money.value &&
+                Objects.equals(currency, money.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
-    }
-
-    public int getValue() {
-        return value;
+        return Objects.hash(value, currency);
     }
 }

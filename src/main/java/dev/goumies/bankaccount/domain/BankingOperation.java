@@ -1,6 +1,7 @@
 package dev.goumies.bankaccount.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 class BankingOperation {
     private final LocalDate date;
@@ -19,8 +20,22 @@ class BankingOperation {
         return date;
     }
 
-    public Money getAmount() {
+    Money getAmount() {
         return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankingOperation that = (BankingOperation) o;
+        return Objects.equals(date, that.date) &&
+                Objects.equals(amount, that.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, amount);
     }
 
     static final class Builder {
@@ -32,13 +47,13 @@ class BankingOperation {
             return this;
         }
 
-        public Builder withAnAmount(Money amount) {
+        Builder withAnAmount(Money amount) {
             this.amount = amount;
             return this;
         }
 
         BankingOperation build() {
-            return new BankingOperation(date, Money.valueOf(0));
+            return new BankingOperation(date, amount);
         }
     }
 

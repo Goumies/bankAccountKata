@@ -1,19 +1,22 @@
 package dev.goumies.bankaccount.domain;
 
+import java.time.LocalDate;
 import java.util.List;
 
-public class OperationsPrinter {
+class OperationsPrinter {
     private final Account account;
 
-    public OperationsPrinter(Account account) {
+    OperationsPrinter(Account account) {
         this.account = account;
     }
 
-    public String generateStatement(List<BankingOperation> operations) {
-        throw new UnsupportedOperationException();
+    String generateStatement(List<BankingOperation> operations) {
+        StringBuilder accountStatement = new StringBuilder();
+        operations.forEach(operation -> accountStatement.append(generateOperationStatement(operation)));
+        return accountStatement.toString();
     }
 
-    public String generateOperationStatement(BankingOperation operation) {
-        return operation.getDate().toString() + " " + String.format("%d", operation.getAmount().getValue());
+    String generateOperationStatement(BankingOperation operation) {
+        return String.format("%tF | %d%n", LocalDate.now(), operation.getAmount().getValue());
     }
 }
