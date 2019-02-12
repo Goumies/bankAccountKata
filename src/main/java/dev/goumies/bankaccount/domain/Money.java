@@ -44,4 +44,8 @@ class Money {
     public int hashCode() {
         return Objects.hash(value, currency);
     }
+
+    public String getCurrency() {
+        return currency;
+    }
 }

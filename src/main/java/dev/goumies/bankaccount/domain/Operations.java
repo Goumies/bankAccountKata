@@ -61,4 +61,8 @@ class Operations {
                 "bankingOperations=" + bankingOperations +
                 '}';
     }
+
+    List<BankingOperation> getCollection() {
+        return bankingOperations;
+    }
 }
