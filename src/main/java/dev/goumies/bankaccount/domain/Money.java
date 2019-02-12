@@ -28,7 +28,7 @@ class Money {
     }
 
     boolean isGreaterThan(Money amount) {
-        return value > amount.value;
+        return value >= amount.value;
     }
 
     @Override
@@ -43,5 +43,13 @@ class Money {
     @Override
     public int hashCode() {
         return Objects.hash(value, currency);
+    }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "value=" + value +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 }

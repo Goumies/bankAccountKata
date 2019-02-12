@@ -38,6 +38,14 @@ class BankingOperation {
         return Objects.hash(date, amount);
     }
 
+    @Override
+    public String toString() {
+        return "BankingOperation{" +
+                "date=" + date +
+                ", amount=" + amount +
+                '}';
+    }
+
     static final class Builder {
         private LocalDate date;
         private Money amount;

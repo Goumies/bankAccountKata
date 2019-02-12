@@ -65,4 +65,12 @@ public class AccountTest {
         account.deposit(aDepositOf10Euros);
         assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).build());
     }
+
+    @Test
+    public void given_a_withdrawal_of_10_euros_should_add_that_operation_to_the_list_of_operations_of_the_account() {
+        Account account = new Account(Money.valueOf(10));
+        Money aWithdrawalOf10Euros = Money.valueOf(10);
+        account.withdraw(aWithdrawalOf10Euros);
+        assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).build());
+    }
 }
