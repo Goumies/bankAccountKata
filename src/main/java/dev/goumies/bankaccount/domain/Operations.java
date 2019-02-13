@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class Operations {
-    private List<BankingOperation> bankingOperations;
+    private final List<BankingOperation> bankingOperations;
 
-    Operations(List<BankingOperation> bankingOperations) {
+    private Operations(List<BankingOperation> bankingOperations) {
         this.bankingOperations = bankingOperations;
     }
 

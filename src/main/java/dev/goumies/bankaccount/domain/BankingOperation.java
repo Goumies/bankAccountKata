@@ -5,12 +5,8 @@ import java.util.Objects;
 
 class BankingOperation {
     private final LocalDate date;
-    Money amount;
-    private Type type;
-
-    private BankingOperation(LocalDate date, Money amount) {
-        this(date, amount, Type.NONE);
-    }
+    final Money amount;
+    private final Type type;
 
     private BankingOperation(LocalDate date, Money amount, Type type) {
         this.date = date;
@@ -22,18 +18,10 @@ class BankingOperation {
         return new Builder();
     }
 
-    Object getDate() {
-        return date;
-    }
-
     Money getAmount() {
         return amount;
     }
 
-
-    Type getType() {
-        return type;
-    }
 
     boolean isAWithdrawal() {
         return type.equals(Type.WITHDRAWAL);

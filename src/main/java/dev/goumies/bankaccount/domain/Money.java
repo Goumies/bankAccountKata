@@ -24,10 +24,6 @@ class Money {
         return new Money(value);
     }
 
-    int getValue() {
-        return value;
-    }
-
     Money plus(Money amount) {
         return Money.valueOf(value + amount.value);
     }

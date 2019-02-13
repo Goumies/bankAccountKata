@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StatementTest {
     @Test
     public void given_an_operation_with_a_date_and_an_amount_should_return_statement_with_the_date_the_amount() {
-        Account account = new Account(Money.valueOf(0));
         OperationsPrinter operationsPrinter = new OperationsPrinter(new Account(Money.valueOf(0)));
         BankingOperation anOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.DEPOSIT).build();
         String statementForDepositDateAndAmount = operationsPrinter.generateOperationStatement(anOperation);
@@ -20,7 +19,6 @@ public class StatementTest {
 
     @Test
     public void given_2_operations_with_a_date_and_an_amount_should_return_statement_with_each_date_and_amount() {
-        Account account = new Account(Money.valueOf(0));
         OperationsPrinter operationsPrinter = new OperationsPrinter(new Account(Money.valueOf(0)));
         BankingOperation anOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.DEPOSIT).build();
         BankingOperation anotherOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(100)).withType(Type.DEPOSIT).build();

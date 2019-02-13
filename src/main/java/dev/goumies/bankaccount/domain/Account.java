@@ -5,28 +5,21 @@ import java.time.LocalDate;
 import static dev.goumies.bankaccount.domain.BankingOperation.anOperation;
 
 class Account {
-    private Money previousBalance;
+    private final Money previousBalance;
     private Money newBalance;
-    private Money lastDeposit;
-    private Operations operations;
+    private final Operations operations;
 
     Account(Money initialBalance) {
         this.previousBalance = initialBalance;
         this.operations = new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(initialBalance).withType(Type.DEPOSIT).build());
         this.newBalance = initialBalance;
-        this.lastDeposit = Money.valueOf(0);
     }
 
     void deposit(Money amount) {
         if (amount.isEnoughFor(Money.valueOf(0))) {
-            saveLastDeposit(amount);
             addDepositToOperations(amount);
             newBalance = this.previousBalance.plus(amount);
         }
-    }
-
-    private void saveLastDeposit(Money amount) {
-        lastDeposit = amount;
     }
 
     boolean hasAddedLastDeposit(Money amount) {

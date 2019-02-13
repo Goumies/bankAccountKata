@@ -6,7 +6,7 @@ class OperationsPrinter {
 
     private static final String STATEMENT_HEADER = String.format("| %-10s | %-20s | %-20s |%n", "DATE", "CREDIT", "DEBIT");
     private static final String STATEMENT_FOOTER_HEADER = String.format("| %-50s |%n", "BALANCE");
-    private Account account;
+    private final Account account;
 
     OperationsPrinter(Account account) {
         this.account = account;

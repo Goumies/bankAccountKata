@@ -99,7 +99,6 @@ public class AccountTest {
         account.deposit(aDepositOf100Euros);
         account.withdraw(aWithdrawalOf20Euros);
         BankingOperation aWithdrawalOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).withType(Type.WITHDRAWAL).build();
-        BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).withType(Type.DEPOSIT).build();
         BankingOperation aWithdrawalOperationWith20Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf20Euros).withType(Type.WITHDRAWAL).build();
         Operations withdrawals = new Operations(aWithdrawalOperationWith10Euros, aWithdrawalOperationWith20Euros);
         assertThat(account.getAllWithdrawals()).isEqualTo(withdrawals);
