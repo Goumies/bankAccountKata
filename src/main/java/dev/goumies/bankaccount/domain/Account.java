@@ -1,6 +1,7 @@
 package dev.goumies.bankaccount.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static dev.goumies.bankaccount.domain.BankingOperation.anOperation;
 
@@ -22,10 +23,6 @@ class Account {
         }
     }
 
-    boolean hasAddedLastDeposit(Money amount) {
-        return newBalance.minus(previousBalance).equals(amount);
-    }
-
     private void addDepositToOperations(Money amount) {
         operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).withType(Type.DEPOSIT).build());
     }
@@ -41,20 +38,13 @@ class Account {
         operations.add(anOperation().withADate(LocalDate.now()).withAnAmount(amount).withType(Type.WITHDRAWAL).build());
     }
 
-    boolean hasSubtractedLastWithdraw(Money amount) {
-        return newBalance.plus(amount).equals(previousBalance);
-    }
-
     BankingOperation getLastOperation() {
-        if (!operations.isEmpty()) {
-            int indexOfLastOperation = operations.size() - 1;
-            return operations.get(indexOfLastOperation);
-        }
-        return anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(0)).build();
+        int indexOfLastOperation = operations.size() - 1;
+        return operations.get(indexOfLastOperation);
     }
 
     Operations getAllOperations() {
-        return operations.getAll();
+        return operations;
     }
 
     Operations getAllWithdrawals() {
@@ -63,5 +53,20 @@ class Account {
 
     Money getBalance() {
         return operations.getBalance();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(previousBalance, account.previousBalance) &&
+                Objects.equals(newBalance, account.newBalance) &&
+                Objects.equals(operations, account.operations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(previousBalance, newBalance, operations);
     }
 }

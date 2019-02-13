@@ -6,14 +6,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 class Money {
-    @Override
-    public String toString() {
-        return "Money{" +
-                "value=" + value +
-                ", currency='" + currency + '\'' +
-                '}';
-    }
-
     private final int value;
     private final String currency;
 
@@ -38,6 +30,18 @@ class Money {
         return value >= amount.value;
     }
 
+    private String getCurrency() {
+        return currency;
+    }
+
+    String printAmount() {
+        if (value == 0)
+            return "0,00 EUR";
+        DecimalFormat decimalFormat = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.FRENCH));
+        String formattedValueOfAmountOfMoney = decimalFormat.format(value);
+        return formattedValueOfAmountOfMoney + " " + getCurrency();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,17 +54,5 @@ class Money {
     @Override
     public int hashCode() {
         return Objects.hash(value, currency);
-    }
-
-    private String getCurrency() {
-        return currency;
-    }
-
-    String printAmount() {
-        if (value == 0)
-            return "0,00 EUR";
-        DecimalFormat decimalFormat = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.FRENCH));
-        String formattedValueOfAmountOfMoney = decimalFormat.format(value);
-        return String.valueOf(formattedValueOfAmountOfMoney) + " " + getCurrency();
     }
 }

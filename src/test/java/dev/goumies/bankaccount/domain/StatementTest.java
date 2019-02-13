@@ -23,8 +23,7 @@ public class StatementTest {
         BankingOperation anOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.DEPOSIT).build();
         BankingOperation anotherOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(100)).withType(Type.DEPOSIT).build();
         Operations operations = new Operations(anOperation, anotherOperation);
-        boolean hasHeader = false;
-        String statementForDepositDateAndAmount = operationsPrinter.generateStatementFor(operations, hasHeader);
+        String statementForDepositDateAndAmount = operationsPrinter.generateStatementFor(operations, false);
         String expectedStatementForDepositDate = String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), anOperation.amount.printAmount(), "") + String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), anotherOperation.amount.printAmount(), "");
         assertThat(statementForDepositDateAndAmount).isEqualTo(expectedStatementForDepositDate);
     }
@@ -41,8 +40,7 @@ public class StatementTest {
                 "|  BALANCE  |" +
                 "|  10.00 EUR  |"*/);
         Operations operations = new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.DEPOSIT).build());
-        boolean hasHeader = true;
-        assertThat(operationsPrinter.generateStatementFor(operations, hasHeader)).isEqualTo(statementForATenEurosDeposit);
+        assertThat(operationsPrinter.generateStatementFor(operations, true)).isEqualTo(statementForATenEurosDeposit);
     }
 
     @Test
@@ -55,8 +53,7 @@ public class StatementTest {
         String statementForATenEurosDeposit = String.format("| %-10s | %-20s | %-20s |%n" +
                 " | %tF | %-20s | %-20s |%n", "DATE", "CREDIT", "DEBIT", LocalDate.now(), "", "10,00 EUR");
         Operations operations = new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.WITHDRAWAL).build());
-        boolean hasHeader = true;
-        assertThat(operationsPrinter.generateStatementFor(operations, hasHeader)).isEqualTo(statementForATenEurosDeposit);
+        assertThat(operationsPrinter.generateStatementFor(operations, true)).isEqualTo(statementForATenEurosDeposit);
     }
 
     @Test
@@ -65,13 +62,12 @@ public class StatementTest {
         Account account = new Account(initialBalance);
         account.withdraw(initialBalance);
         OperationsPrinter operationsPrinter = new OperationsPrinter(account);
-        boolean hasHeader = true;
         String statementForATenEurosWithdrawal = String.format("| %-10s | %-20s | %-20s |%n" +
                 " | %tF | %-20s | %-20s |%n" +
                 " | %tF | %-20s | %-20s |%n" +
                 "| %-50s |%n" +
                 "| %-50s |%n", "DATE", "CREDIT", "DEBIT", LocalDate.now(), "10,00 EUR", "", LocalDate.now(), "", "10,00 EUR", "BALANCE", "0,00 EUR");
-        String statement = operationsPrinter.generateStatementFor(account.getAllOperations(), hasHeader);
+        String statement = operationsPrinter.generateStatementFor(account.getAllOperations(), true);
         assertThat(operationsPrinter.addFooter(statement)).isEqualTo(statementForATenEurosWithdrawal);
     }
 }

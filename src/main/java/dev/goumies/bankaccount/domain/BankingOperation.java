@@ -28,7 +28,22 @@ class BankingOperation {
     }
 
     boolean isADeposit() {
-        return type.equals(Type.DEPOSIT);
+        return Type.DEPOSIT.equals(type);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankingOperation that = (BankingOperation) o;
+        return Objects.equals(date, that.date) &&
+                Objects.equals(amount, that.amount) &&
+                type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, amount, type);
     }
 
     static final class Builder {
@@ -55,19 +70,7 @@ class BankingOperation {
         BankingOperation build() {
             return new BankingOperation(date, amount, type);
         }
+
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BankingOperation that = (BankingOperation) o;
-        return Objects.equals(date, that.date) &&
-                Objects.equals(amount, that.amount);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, amount);
-    }
 }

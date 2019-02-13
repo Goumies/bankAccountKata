@@ -16,10 +16,6 @@ class Operations {
         this.bankingOperations = Stream.of(bankingOperations).collect(Collectors.toList());
     }
 
-    boolean isEmpty() {
-        return bankingOperations.isEmpty();
-    }
-
     void add(BankingOperation bankingOperation) {
         bankingOperations.add(bankingOperation);
     }
@@ -32,10 +28,6 @@ class Operations {
         return bankingOperations.size();
     }
 
-    Operations getAll() {
-        return this;
-    }
-
     Operations getWithdrawals() {
         return new Operations(bankingOperations.stream()
                 .filter(BankingOperation::isAWithdrawal)
@@ -44,19 +36,6 @@ class Operations {
 
     List<BankingOperation> getCollection() {
         return bankingOperations;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Operations that = (Operations) o;
-        return Objects.equals(bankingOperations, that.bankingOperations);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(bankingOperations);
     }
 
     Money getBalance() {
@@ -72,4 +51,18 @@ class Operations {
                         Money::plus);
         return totalCredit.minus(totalDebit);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Operations that = (Operations) o;
+        return Objects.equals(bankingOperations, that.bankingOperations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bankingOperations);
+    }
+
 }

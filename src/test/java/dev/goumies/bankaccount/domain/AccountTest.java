@@ -14,8 +14,7 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(-1);
         account.deposit(amount);
-        boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
-        assertThat(hasLastDepositBeenAddedToAccount).isFalse();
+        assertThat(account.getBalance()).isEqualTo(Money.valueOf(0));
     }
 
     @Test
@@ -24,8 +23,7 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(0);
         account.deposit(amount);
-        boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
-        assertThat(hasLastDepositBeenAddedToAccount).isTrue();
+        assertThat(account.getBalance()).isEqualTo(Money.valueOf(0));
     }
 
     @Test
@@ -34,7 +32,17 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(10);
         account.deposit(amount);
-        boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
+        assertThat(account.getBalance()).isEqualTo(Money.valueOf(10));
+    }
+
+    @Test
+    public void given_any_deposit_should_return_true() {
+        Money initialBalance = Money.valueOf(0);
+        Account account = new Account(initialBalance);
+        Money amount = Money.valueOf(15);
+        account.deposit(amount);
+        BankingOperation lastOperation = account.getLastOperation();
+        boolean hasLastDepositBeenAddedToAccount = lastOperation.isADeposit();
         assertThat(hasLastDepositBeenAddedToAccount).isTrue();
     }
 
@@ -44,8 +52,7 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(10);
         account.withdraw(amount);
-        boolean hasLastWithdrawBeenSubtractedFromAccount = account.hasSubtractedLastWithdraw(amount);
-        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isFalse();
+        assertThat(account.getBalance()).isEqualTo(initialBalance);
     }
 
     @Test
@@ -54,8 +61,7 @@ public class AccountTest {
         Account account = new Account(initialBalance);
         Money amount = Money.valueOf(10);
         account.withdraw(amount);
-        boolean hasLastWithdrawBeenSubtractedFromAccount = account.hasSubtractedLastWithdraw(amount);
-        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isTrue();
+        assertThat(account.getBalance()).isEqualTo(Money.valueOf(0));
     }
 
     @Test
@@ -63,7 +69,15 @@ public class AccountTest {
         Account account = new Account(Money.valueOf(0));
         Money aDepositOf10Euros = Money.valueOf(10);
         account.deposit(aDepositOf10Euros);
-        assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).build());
+        assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).withType(Type.DEPOSIT).build());
+    }
+
+    @Test
+    public void given_no_operation_should_return_a_neutral_operation_from_the_list_of_operations_of_the_account() {
+        Money noMoneyForNeutralOperation = Money.valueOf(0);
+        Account account = new Account(noMoneyForNeutralOperation);
+        BankingOperation aNeutralOperation = anOperation().withADate(LocalDate.now()).withAnAmount(noMoneyForNeutralOperation).withType(Type.DEPOSIT).build();
+        assertThat(account.getLastOperation()).isEqualTo(aNeutralOperation);
     }
 
     @Test
@@ -71,7 +85,7 @@ public class AccountTest {
         Account account = new Account(Money.valueOf(10));
         Money aWithdrawalOf10Euros = Money.valueOf(10);
         account.withdraw(aWithdrawalOf10Euros);
-        assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).build());
+        assertThat(account.getLastOperation()).isEqualTo(anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).withType(Type.WITHDRAWAL).build());
     }
 
     @Test
@@ -82,15 +96,22 @@ public class AccountTest {
         Money aDepositOf100Euros = Money.valueOf(100);
         account.withdraw(aWithdrawalOf10Euros);
         account.deposit(aDepositOf100Euros);
-        BankingOperation aWithdrawalOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).build();
-        BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).build();
-        BankingOperation aDepositOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).build();
+        BankingOperation aWithdrawalOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).withType(Type.WITHDRAWAL).build();
+        BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).withType(Type.DEPOSIT).build();
+        BankingOperation aDepositOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).withType(Type.DEPOSIT).build();
         Operations operations = new Operations(aDepositOperationWith10Euros, aWithdrawalOperationWith10Euros, aDepositOperationWith100Euros);
         assertThat(account.getAllOperations()).isEqualTo(operations);
     }
 
     @Test
-    public void given_multiple_banking_operations_should_withdrawals_with_negative_values() {
+    public void given_no_operation_should_return_neutral_operation_from_the_list_of_operations_of_the_account() {
+        Money noMoneyForNeutralOperation = Money.valueOf(0);
+        Account account = new Account(noMoneyForNeutralOperation);
+        assertThat(account.getAllOperations()).isEqualTo(new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(noMoneyForNeutralOperation).withType(Type.DEPOSIT).build()));
+    }
+
+    @Test
+    public void given_multiple_banking_operations_should_return_withdrawals_with_negative_values() {
         Account account = new Account(Money.valueOf(10));
         Money aWithdrawalOf10Euros = Money.valueOf(10);
         Money aDepositOf100Euros = Money.valueOf(100);
