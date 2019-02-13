@@ -35,7 +35,6 @@ class OperationsPrinter {
     String addFooter(String statement) {
         StringBuilder stringBuilder = new StringBuilder(statement).append(STATEMENT_FOOTER_HEADER);
         Money balance = account.getBalance();
-        System.out.println(balance.toString());
         return stringBuilder.append(String.format("| %-50s |%n", balance.printAmount())).toString();
     }
 }

@@ -1,7 +1,6 @@
 package dev.goumies.bankaccount.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static dev.goumies.bankaccount.domain.BankingOperation.anOperation;
 
@@ -13,13 +12,13 @@ class Account {
 
     Account(Money initialBalance) {
         this.previousBalance = initialBalance;
-        this.operations = new Operations(new ArrayList<>());
+        this.operations = new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(initialBalance).withType(Type.DEPOSIT).build());
         this.newBalance = initialBalance;
         this.lastDeposit = Money.valueOf(0);
     }
 
     void deposit(Money amount) {
-        if (amount.isGreaterThan(Money.valueOf(0))) {
+        if (amount.isEnoughFor(Money.valueOf(0))) {
             saveLastDeposit(amount);
             addDepositToOperations(amount);
             newBalance = this.previousBalance.plus(amount);
@@ -39,7 +38,7 @@ class Account {
     }
 
     void withdraw(Money amount) {
-        if (newBalance.isGreaterThan(amount)) {
+        if (newBalance.isEnoughFor(amount)) {
             addWithdrawalToOperations(amount);
             newBalance = this.previousBalance.minus(amount);
         }
@@ -70,6 +69,6 @@ class Account {
     }
 
     Money getBalance() {
-        return operations.getBalance();
+        return operations.getBalance(previousBalance);
     }
 }

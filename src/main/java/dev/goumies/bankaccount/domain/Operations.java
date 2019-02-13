@@ -59,10 +59,16 @@ class Operations {
         return Objects.hash(bankingOperations);
     }
 
-    Money getBalance() {
-        return bankingOperations.stream()
-                .map(BankingOperation::getAmount)
-                .reduce(Money.valueOf(0),
-                        Money::plus);
+    Money getBalance(Money initialBalance) {
+        Money balance = initialBalance;
+        for (BankingOperation bankingOperation : bankingOperations
+        ) {
+            if (!bankingOperation.isAWithdrawal()) {
+                balance = balance.plus(bankingOperation.getAmount());
+            }
+            balance = balance.minus(bankingOperation.getAmount());
+
+        }
+        return balance;
     }
 }

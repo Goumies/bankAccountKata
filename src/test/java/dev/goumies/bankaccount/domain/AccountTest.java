@@ -77,13 +77,15 @@ public class AccountTest {
     @Test
     public void given_multiple_banking_operations_should_add_all_operations_to_the_list_of_operations_of_the_account() {
         Account account = new Account(Money.valueOf(10));
+        Money aDepositOf10Euros = Money.valueOf(10);
         Money aWithdrawalOf10Euros = Money.valueOf(10);
         Money aDepositOf100Euros = Money.valueOf(100);
         account.withdraw(aWithdrawalOf10Euros);
         account.deposit(aDepositOf100Euros);
         BankingOperation aWithdrawalOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aWithdrawalOf10Euros).build();
         BankingOperation aDepositOperationWith100Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf100Euros).build();
-        Operations operations = new Operations(aWithdrawalOperationWith10Euros, aDepositOperationWith100Euros);
+        BankingOperation aDepositOperationWith10Euros = anOperation().withADate(LocalDate.now()).withAnAmount(aDepositOf10Euros).build();
+        Operations operations = new Operations(aDepositOperationWith10Euros, aWithdrawalOperationWith10Euros, aDepositOperationWith100Euros);
         assertThat(account.getAllOperations()).isEqualTo(operations);
     }
 

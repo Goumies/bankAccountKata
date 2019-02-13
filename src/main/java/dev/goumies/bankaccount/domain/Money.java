@@ -4,6 +4,14 @@ import java.text.DecimalFormat;
 import java.util.Objects;
 
 class Money {
+    @Override
+    public String toString() {
+        return "Money{" +
+                "value=" + value +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
+
     private final int value;
     private final String currency;
 
@@ -28,7 +36,7 @@ class Money {
         return Money.valueOf(value - amount.value);
     }
 
-    boolean isGreaterThan(Money amount) {
+    boolean isEnoughFor(Money amount) {
         return value >= amount.value;
     }
 
@@ -51,6 +59,8 @@ class Money {
     }
 
     String printAmount() {
+        if (value == 0)
+            return "0,00 EUR";
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         String formattedValueOfAmountOfMoney = decimalFormat.format(value);
         return String.valueOf(formattedValueOfAmountOfMoney) + " " + getCurrency();

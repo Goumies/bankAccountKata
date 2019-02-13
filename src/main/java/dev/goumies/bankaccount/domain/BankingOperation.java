@@ -31,12 +31,16 @@ class BankingOperation {
     }
 
 
-    private Type getType() {
+    Type getType() {
         return type;
     }
 
     boolean isAWithdrawal() {
         return type.equals(Type.WITHDRAWAL);
+    }
+
+    boolean isADeposit() {
+        return type.equals(Type.DEPOSIT);
     }
 
     static final class Builder {

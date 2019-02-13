@@ -1,6 +1,5 @@
 package dev.goumies.bankaccount.domain;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -63,19 +62,18 @@ public class StatementTest {
     }
 
     @Test
-    @Ignore
     public void given_a_withdrawal_of_10_euros_should_return_a_complete_statement_with_that_operation() {
         Money initialBalance = Money.valueOf(10);
         Account account = new Account(initialBalance);
-        Money amount = Money.valueOf(10);
-        account.withdraw(amount);
-        OperationsPrinter operationsPrinter = new OperationsPrinter(new Account(Money.valueOf(0)));
-        String statementForATenEurosDeposit = String.format("| %-10s | %-20s | %-20s |%n" +
-                " | %tF | %-20s | %-20s |%n", "DATE", "CREDIT", "DEBIT", LocalDate.now(), "", "10,00 EUR"/* +
-                "|  BALANCE  |" +
-                "|  10.00 EUR  |"*/);
-        Operations operations = new Operations(anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.WITHDRAWAL).build());
+        account.withdraw(initialBalance);
+        OperationsPrinter operationsPrinter = new OperationsPrinter(account);
         boolean hasHeader = true;
-        assertThat(operationsPrinter.addFooter(operationsPrinter.generateStatementFor(operations, hasHeader))).isEqualTo(statementForATenEurosDeposit);
+        String statementForATenEurosWithdrawal = String.format("| %-10s | %-20s | %-20s |%n" +
+                " | %tF | %-20s | %-20s |%n" +
+                " | %tF | %-20s | %-20s |%n" +
+                "| %-50s |%n" +
+                "| %-50s |%n", "DATE", "CREDIT", "DEBIT", LocalDate.now(), "10,00 EUR", "", LocalDate.now(), "", "10,00 EUR", "BALANCE", "0,00 EUR");
+        String statement = operationsPrinter.generateStatementFor(account.getAllOperations(), hasHeader);
+        assertThat(operationsPrinter.addFooter(statement)).isEqualTo(statementForATenEurosWithdrawal);
     }
 }
