@@ -59,16 +59,17 @@ class Operations {
         return Objects.hash(bankingOperations);
     }
 
-    Money getBalance(Money initialBalance) {
-        Money balance = initialBalance;
-        for (BankingOperation bankingOperation : bankingOperations
-        ) {
-            if (!bankingOperation.isAWithdrawal()) {
-                balance = balance.plus(bankingOperation.getAmount());
-            }
-            balance = balance.minus(bankingOperation.getAmount());
-
-        }
-        return balance;
+    Money getBalance() {
+        Money totalCredit = bankingOperations.stream()
+                .filter(BankingOperation::isADeposit)
+                .reduce(Money.valueOf(0),
+                        (amount, bankingOperation) -> amount.plus(bankingOperation.getAmount()),
+                        Money::plus);
+        Money totalDebit = bankingOperations.stream()
+                .filter(BankingOperation::isAWithdrawal)
+                .reduce(Money.valueOf(0),
+                        (amount, bankingOperation) -> amount.plus(bankingOperation.getAmount()),
+                        Money::plus);
+        return totalCredit.minus(totalDebit);
     }
 }

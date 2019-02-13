@@ -69,6 +69,6 @@ class Account {
     }
 
     Money getBalance() {
-        return operations.getBalance(previousBalance);
+        return operations.getBalance();
     }
 }
