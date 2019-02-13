@@ -42,6 +42,10 @@ class Operations {
                 .collect(Collectors.toList()));
     }
 
+    List<BankingOperation> getCollection() {
+        return bankingOperations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,14 +59,10 @@ class Operations {
         return Objects.hash(bankingOperations);
     }
 
-    @Override
-    public String toString() {
-        return "Operations{" +
-                "bankingOperations=" + bankingOperations +
-                '}';
-    }
-
-    List<BankingOperation> getCollection() {
-        return bankingOperations;
+    Money getBalance() {
+        return bankingOperations.stream()
+                .map(BankingOperation::getAmount)
+                .reduce(Money.valueOf(0),
+                        Money::plus);
     }
 }

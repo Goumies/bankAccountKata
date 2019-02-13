@@ -1,5 +1,6 @@
 package dev.goumies.bankaccount.domain;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 class Money {
@@ -45,7 +46,13 @@ class Money {
         return Objects.hash(value, currency);
     }
 
-    public String getCurrency() {
+    private String getCurrency() {
         return currency;
+    }
+
+    String printAmount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String formattedValueOfAmountOfMoney = decimalFormat.format(value);
+        return String.valueOf(formattedValueOfAmountOfMoney) + " " + getCurrency();
     }
 }

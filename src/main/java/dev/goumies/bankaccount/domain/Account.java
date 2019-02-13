@@ -68,4 +68,8 @@ class Account {
     Operations getAllWithdrawals() {
         return operations.getWithdrawals();
     }
+
+    Money getBalance() {
+        return operations.getBalance();
+    }
 }

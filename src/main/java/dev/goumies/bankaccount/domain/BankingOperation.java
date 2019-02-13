@@ -1,12 +1,11 @@
 package dev.goumies.bankaccount.domain;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Objects;
 
 class BankingOperation {
     private final LocalDate date;
-    private Money amount;
+    Money amount;
     private Type type;
 
     private BankingOperation(LocalDate date, Money amount) {
@@ -38,12 +37,6 @@ class BankingOperation {
 
     boolean isAWithdrawal() {
         return type.equals(Type.WITHDRAWAL);
-    }
-
-    String printAmount() {
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        String formattedValueOfAmountOfMoney = decimalFormat.format(amount.getValue());
-        return String.valueOf(formattedValueOfAmountOfMoney) + " " + amount.getCurrency();
     }
 
     static final class Builder {
