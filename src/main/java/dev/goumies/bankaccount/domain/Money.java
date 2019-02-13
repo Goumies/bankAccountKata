@@ -1,6 +1,8 @@
 package dev.goumies.bankaccount.domain;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Objects;
 
 class Money {
@@ -57,7 +59,7 @@ class Money {
     String printAmount() {
         if (value == 0)
             return "0,00 EUR";
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        DecimalFormat decimalFormat = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.FRENCH));
         String formattedValueOfAmountOfMoney = decimalFormat.format(value);
         return String.valueOf(formattedValueOfAmountOfMoney) + " " + getCurrency();
     }

@@ -15,7 +15,7 @@ public class AccountTest {
         Money amount = Money.valueOf(-1);
         account.deposit(amount);
         boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
-        assertThat(hasLastDepositBeenAddedToAccount).isEqualTo(false);
+        assertThat(hasLastDepositBeenAddedToAccount).isFalse();
     }
 
     @Test
@@ -25,7 +25,7 @@ public class AccountTest {
         Money amount = Money.valueOf(0);
         account.deposit(amount);
         boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
-        assertThat(hasLastDepositBeenAddedToAccount).isEqualTo(true);
+        assertThat(hasLastDepositBeenAddedToAccount).isTrue();
     }
 
     @Test
@@ -35,7 +35,7 @@ public class AccountTest {
         Money amount = Money.valueOf(10);
         account.deposit(amount);
         boolean hasLastDepositBeenAddedToAccount = account.hasAddedLastDeposit(amount);
-        assertThat(hasLastDepositBeenAddedToAccount).isEqualTo(true);
+        assertThat(hasLastDepositBeenAddedToAccount).isTrue();
     }
 
     @Test
@@ -45,7 +45,7 @@ public class AccountTest {
         Money amount = Money.valueOf(10);
         account.withdraw(amount);
         boolean hasLastWithdrawBeenSubtractedFromAccount = account.hasSubtractedLastWithdraw(amount);
-        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isEqualTo(false);
+        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isFalse();
     }
 
     @Test
@@ -55,7 +55,7 @@ public class AccountTest {
         Money amount = Money.valueOf(10);
         account.withdraw(amount);
         boolean hasLastWithdrawBeenSubtractedFromAccount = account.hasSubtractedLastWithdraw(amount);
-        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isEqualTo(true);
+        assertThat(hasLastWithdrawBeenSubtractedFromAccount).isTrue();
     }
 
     @Test
