@@ -13,7 +13,7 @@ public class StatementTest {
         OperationsPrinter operationsPrinter = new OperationsPrinter(new Account(Money.valueOf(0)));
         BankingOperation anOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(10)).withType(Type.DEPOSIT).build();
         String statementForDepositDateAndAmount = operationsPrinter.generateOperationStatement(anOperation);
-        String expectedStatementForDepositDate = String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), anOperation.amount.printAmount(), "");
+        String expectedStatementForDepositDate = String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), MoneyPrinter.printAmount(anOperation.amount), "");
         assertThat(statementForDepositDateAndAmount).isEqualTo(expectedStatementForDepositDate);
     }
 
@@ -24,7 +24,7 @@ public class StatementTest {
         BankingOperation anotherOperation = anOperation().withADate(LocalDate.now()).withAnAmount(Money.valueOf(100)).withType(Type.DEPOSIT).build();
         Operations operations = new Operations(anOperation, anotherOperation);
         String statementForDepositDateAndAmount = operationsPrinter.generateStatementFor(operations, false);
-        String expectedStatementForDepositDate = String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), anOperation.amount.printAmount(), "") + String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), anotherOperation.amount.printAmount(), "");
+        String expectedStatementForDepositDate = String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), MoneyPrinter.printAmount(anOperation.amount), "") + String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), MoneyPrinter.printAmount(anotherOperation.amount), "");
         assertThat(statementForDepositDateAndAmount).isEqualTo(expectedStatementForDepositDate);
     }
 

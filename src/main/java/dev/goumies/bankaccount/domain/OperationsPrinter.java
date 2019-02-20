@@ -28,13 +28,13 @@ class OperationsPrinter {
 
     String generateOperationStatement(BankingOperation operation) {
         if (operation.isAWithdrawal())
-            return String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), "", operation.amount.printAmount());
-        return String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), operation.amount.printAmount(), "");
+            return String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), "", MoneyPrinter.printAmount(operation.amount));
+        return String.format(" | %tF | %-20s | %-20s |%n", LocalDate.now(), MoneyPrinter.printAmount(operation.amount), "");
     }
 
     String addFooter(String statement) {
         StringBuilder stringBuilder = new StringBuilder(statement).append(STATEMENT_FOOTER_HEADER);
         Money balance = account.getBalance();
-        return stringBuilder.append(String.format("| %-50s |%n", balance.printAmount())).toString();
+        return stringBuilder.append(String.format("| %-50s |%n", MoneyPrinter.printAmount(balance))).toString();
     }
 }

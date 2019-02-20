@@ -1,12 +1,9 @@
 package dev.goumies.bankaccount.domain;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.Objects;
 
 class Money {
-    private final int value;
+    final int value;
     private final String currency;
 
     private Money(int value) {
@@ -30,16 +27,8 @@ class Money {
         return value >= amount.value;
     }
 
-    private String getCurrency() {
+    String getCurrency() {
         return currency;
-    }
-
-    String printAmount() {
-        if (value == 0)
-            return "0,00 EUR";
-        DecimalFormat decimalFormat = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.FRENCH));
-        String formattedValueOfAmountOfMoney = decimalFormat.format(value);
-        return formattedValueOfAmountOfMoney + " " + getCurrency();
     }
 
     @Override
