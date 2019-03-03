@@ -1,4 +1,6 @@
 package dev.goumies.bankaccount.domain;
 
-class Account {
+enum BankingOperationType {
+    DEPOSIT
+
 }
