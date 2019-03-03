@@ -7,12 +7,16 @@ Bank account kata by SG
 **In order to** save money\
 **As** a bank client\
 **I want to** deposit money in my account
-R
+
+
+
 ## [US#2] - Withdrawal from my client account
 **In order to** retrieve some or all of my savings\
 **As** a bank client\
 **I want to** make a withdrawal from my client account
-R
+
+
+
 ## [US#3] - History of my operations
 **In order to** check my operations\
 **As** a bank client\
