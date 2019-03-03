@@ -12,12 +12,13 @@ final class BankAccount {
     }
 
     BankAccount deposit(Money amount) {
-        operations.add(aBankingOperation().withAmount(amount).withBankingOperationType(BankingOperationType.DEPOSIT).build());
-        return updateBalance(amount);
+        final BankingOperation aDeposit = aBankingOperation().withAmount(amount).withBankingOperationType(BankingOperationType.DEPOSIT).build();
+        operations.add(aDeposit);
+        return updateBalanceWith(aDeposit);
     }
 
-    private BankAccount updateBalance(Money amount) {
-        return new BankAccount(Balance.valueOf(balance.plus(amount)));
+    private BankAccount updateBalanceWith(BankingOperation operation) {
+        return new BankAccount(Balance.valueOf(balance.plus(operation.getAmount())));
     }
 
     boolean hasBalanceEqualTo(Balance otherBalance) {
